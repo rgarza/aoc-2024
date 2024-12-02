@@ -7,7 +7,7 @@ pub fn solve(input: &str) -> String {
         .lines()
         .for_each(|line| {
             let l = Some(line).unwrap_or("".into());
-            let pairs = l.split("   ").collect::<Vec<&str>>();
+            let pairs = l.split_whitespace().collect::<Vec<&str>>();
 
             left.push(pairs[0].parse::<i64>().unwrap());
             right.push(pairs[1].parse::<i64>().unwrap());
@@ -30,7 +30,7 @@ pub fn solve_02(input: &str) -> String {
         .lines()
         .for_each(|line| {
             let l = Some(line).unwrap_or("".into());
-            let pairs = l.split("   ").collect::<Vec<&str>>();
+            let pairs = l.split_whitespace().collect::<Vec<&str>>();
 
             left.push(pairs[0].parse::<i64>().unwrap());
 
