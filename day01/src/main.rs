@@ -15,10 +15,10 @@ pub fn solve(input: &str) -> String {
     );
     left.sort();
     right.sort();
-    let mut sum: i64 = 0;
-    for (pos, l) in left.iter().enumerate() {
-        sum += (right[pos] - l).abs();
-    }
+    let sum = left.iter().zip(right.iter())
+        .map(|(l, r)| {
+         (r - l).abs()
+    }).sum::<i64>();
     sum.to_string()
 
 }
