@@ -9,15 +9,12 @@ pub fn solve_day_02_01(input: &str) -> String {
                 let current = levels[l].parse::<i64>().unwrap();
                 let next = levels[l + 1].parse::<i64>().unwrap();
                 let diff = next - current;
-                match going_up {
-                    None => {
-                        if diff > 0 {
-                            going_up = Some(true)
-                        } else {
-                            going_up = Some(false);
-                        }
-                    },
-                    _ => {},
+                if going_up.is_none() {
+                    if diff > 0 {
+                        going_up = Some(true)
+                    } else {
+                        going_up = Some(false);
+                    }
                 }
                 if going_up == Some(true) {
                     if diff < 1 || diff > 3 {
