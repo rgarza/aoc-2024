@@ -18,35 +18,32 @@ pub fn solve_day_02_01(input: &str) -> String {
 }
 fn is_valid_report(levels: &Vec<i64>) -> bool {
     let mut ret: i64 = 1;
-    let mut going_up: Option<bool> = None;
+    let going_up: bool;
     let mut i: usize = 0;
     if levels.len() < 2 {
         return false;
     }
+    if levels[1]> levels[0] {
+        going_up = true;
+    } else {
+        going_up = false;
+    }
     while ret == 1 && i < levels.len() - 1 {
         let current = levels[i];
         let next = levels[i + 1];
-        if going_up.is_none() {
-            if next > current {
-                going_up = Some(true);
-            } else {
-                going_up = Some(false);
-            }
-        }
         i += 1;
         let diff = next - current;
         match going_up {
-            Some(true) => {
+            true => {
                 if (diff <= 0) || (diff < 1 || diff > 3) {
                     ret = 0;
                 }
             }
-            Some(false) => {
+            false => {
                 if (diff >= 0) || (diff > -1 || diff < -3) {
                     ret = 0;
                 }
             }
-            _ => {}
         }
     }
     if ret == 1 {
