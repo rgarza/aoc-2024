@@ -11,19 +11,18 @@ pub fn solve_day_02_01(input: &str) -> String {
                 let diff = next - current;
                 if going_up.is_none() {
                     if diff > 0 {
-                        going_up = Some(true)
+                        going_up = Some(true);
                     } else {
                         going_up = Some(false);
                     }
                 }
-                if going_up == Some(true) {
-                    if diff < 1 || diff > 3 {
-                        valid = false;
-                    }
-                } else {
-                    if diff > -1 || diff < -3 {
-                        valid = false;
-                    }
+                // check where it is going
+                if (going_up == Some(true) && diff < 0) || (going_up == Some(false) && diff > 0) {
+                    valid = false;
+                }
+
+                if diff.abs() < 1 || diff.abs() > 3 {
+                    valid = false;
                 }
             }
             if valid {
