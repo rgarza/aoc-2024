@@ -3,34 +3,40 @@ pub fn solve_day_02_01(input: &str) -> String {
         .lines()
         .map(|report| {
             let levels: Vec<&str> = report.split_whitespace().collect();
-            let mut valid: bool = true;
+            let mut ret: i64 = 1;
             let mut going_up: Option<bool> = None;
-            for l in 0..levels.len() - 1 {
-                let current = levels[l].parse::<i64>().unwrap();
-                let next = levels[l + 1].parse::<i64>().unwrap();
-                let diff = next - current;
+            let mut i: usize = 0;
+            while ret == 1 && i < levels.len() - 1 {
+                let current = levels[i].parse::<i64>().unwrap();
+                let next = levels[i + 1].parse::<i64>().unwrap();
                 if going_up.is_none() {
-                    if diff > 0 {
+                    if next > current {
                         going_up = Some(true);
                     } else {
                         going_up = Some(false);
                     }
                 }
-                // check where it is going
-                if (going_up == Some(true) && diff < 0) || (going_up == Some(false) && diff > 0) {
-                    valid = false;
-                }
-
-                if diff.abs() < 1 || diff.abs() > 3 {
-                    valid = false;
+                i += 1;
+                let diff = next - current;
+                match going_up {
+                    Some(true) => {
+                        if (diff < 0) || (diff < 1 || diff > 3) {
+                            ret = 0;
+                        }
+                    }
+                    Some(false) => {
+                        println!("{:?} - {:?} = {:?}", next, current, diff);
+                        if (diff > 0) || (diff > -1 || diff < -3) {
+                            ret = 0;
+                        }
+                    }
+                    _ => {}
                 }
             }
-            if valid {
-                println!("{:?}", levels);
-                1i64
-            } else {
-                0i64
+            if ret == 1 {
+                println!("{:?}", report);
             }
+            ret
         })
         .sum();
 
