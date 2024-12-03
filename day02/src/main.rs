@@ -2,7 +2,10 @@ pub fn solve_day_02_01(input: &str) -> String {
     let s: i64 = input
         .lines()
         .map(|report| {
-            let levels: Vec<&str> = report.split_whitespace().collect();
+            let levels: Vec<i64> = report
+                .split_whitespace()
+                .map(|level| level.parse().unwrap())
+                .collect();
             if is_valid_report(&levels) {
                 1
             } else {
@@ -13,7 +16,7 @@ pub fn solve_day_02_01(input: &str) -> String {
 
     s.to_string()
 }
-fn is_valid_report(levels: &Vec<&str>) -> bool {
+fn is_valid_report(levels: &Vec<i64>) -> bool {
     let mut ret: i64 = 1;
     let mut going_up: Option<bool> = None;
     let mut i: usize = 0;
@@ -21,8 +24,8 @@ fn is_valid_report(levels: &Vec<&str>) -> bool {
         return false;
     }
     while ret == 1 && i < levels.len() - 1 {
-        let current = levels[i].parse::<i64>().unwrap();
-        let next = levels[i + 1].parse::<i64>().unwrap();
+        let current = levels[i];
+        let next = levels[i + 1];
         if going_up.is_none() {
             if next > current {
                 going_up = Some(true);
@@ -57,8 +60,11 @@ pub fn solve_day_02_02(input: &str) -> String {
     let s: i64 = input
         .lines()
         .map(|report| {
-            let levels: Vec<&str> = report.split_whitespace().collect();
-            let mut new_levels: Vec<&str>;
+            let levels: Vec<i64> = report
+                .split_whitespace()
+                .map(|level| level.parse().unwrap())
+                .collect();
+            let mut new_levels: Vec<i64>;
             new_levels = levels.clone();
             let mut is_valid: bool = false;
             let mut current_idx: usize = 0;
