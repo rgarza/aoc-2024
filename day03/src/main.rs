@@ -13,14 +13,24 @@ pub fn solve_day_03(input: &str, allow_enable: bool) -> String {
                 let is_n = input.chars().nth(current_idx + 2).unwrap();
                 let is_quote = input.chars().nth(current_idx + 3).unwrap();
                 let is_t = input.chars().nth(current_idx + 4).unwrap();
+                let is_po = input.chars().nth(current_idx + 5).unwrap();
+                let is_pc = input.chars().nth(current_idx + 6).unwrap();
 
-                if is_o == 'o' && is_n == 'n' && is_quote == '\'' && is_t == 't' {
+                if is_o == 'o'
+                    && is_n == 'n'
+                    && is_quote == '\''
+                    && is_t == 't'
+                    && is_po == '('
+                    && is_pc == ')'
+                {
                     enable_mul = false;
-                    current_idx += 5;
+                    current_idx += 7;
                 } else {
-                    if is_o == 'o' {
+                    let is_po = input.chars().nth(current_idx + 2).unwrap();
+                    let is_pc = input.chars().nth(current_idx + 3).unwrap();
+                    if is_o == 'o' && is_po == '(' && is_pc == ')' {
                         enable_mul = true;
-                        current_idx += 2;
+                        current_idx += 4;
                     }
                 }
             }
