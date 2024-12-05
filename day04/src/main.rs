@@ -43,8 +43,14 @@ enum Direction {
     DownRight,
     DownLeft,
 }
-fn process_char(data: &Vec<Vec<char>>, x: usize, y: usize, current: &String, direction: Direction) -> i32 {
-    if current.len() >= 4 || x >= data[0].len() || y >= data.len()  {
+fn process_char(
+    data: &Vec<Vec<char>>,
+    x: usize,
+    y: usize,
+    current: &String,
+    direction: Direction,
+) -> i32 {
+    if current.len() >= 4 || x >= data[0].len() || y >= data.len() {
         return 0;
     }
     let mut new_current: String = current.clone();
@@ -77,7 +83,7 @@ fn process_char(data: &Vec<Vec<char>>, x: usize, y: usize, current: &String, dir
         Direction::Down => {
             let can = can_go_down(x, y, new_current.len(), width, height);
             if can {
-                 return process_char(data, x, y + 1, &new_current, direction);
+                return process_char(data, x, y + 1, &new_current, direction);
             }
         }
         Direction::UpLeft => {
@@ -105,7 +111,7 @@ fn process_char(data: &Vec<Vec<char>>, x: usize, y: usize, current: &String, dir
             let down = can_go_down(x, y, new_current.len(), width, height);
             let right = can_go_right(x, y, new_current.len(), width, height);
             if down && right {
-                return process_char(data, x + 1 , y + 1, &new_current, direction);
+                return process_char(data, x + 1, y + 1, &new_current, direction);
             }
         }
         Direction::Left => {
@@ -149,19 +155,66 @@ pub fn solve_day_04_01(input: &str) -> String {
 
     total.to_string()
 }
+pub fn solve_day_04_02(input: &str) -> String {
+    let mut data: Vec<Vec<char>> = vec![];
+    let empty: String = "".into();
+    input.lines().for_each(|line| {
+        data.push(line.chars().collect());
+    });
+
+    let mut total: i32 = 0;
+    for y in 1..data[0].len() - 1 {
+        for x in 1..data[0].len() - 1 {
+            if data[y][x] == 'A' {
+                let top_left = data[y - 1][x - 1];
+                let top_right = data[y - 1][x + 1];
+                let bottom_left = data[y + 1][x - 1];
+                let bottom_right = data[y + 1][x + 1];
+
+                if ((top_left == 'M' && bottom_right == 'S')
+                    || (top_left == 'S' && bottom_right == 'M'))
+                    && ((top_right == 'M' && bottom_left == 'S')
+                        || (top_right == 'S' && bottom_left == 'M'))
+                {
+                    total += 1;
+                }
+            }
+        }
+    }
+
+    total.to_string()
+}
+
 fn main() {
     let input = include_str!("./input.txt");
+
     println!("Day 04 part 01{:?}", solve_day_04_01(input));
+    println!("Day 04 part 02{:?}", solve_day_04_02(input));
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn day_04_02() {
+        let sample = include_str!("./sample.txt");
+        assert_eq!(solve_day_04_02(sample), "9");
+    }
 
     #[test]
     fn day_04_01() {
         let sample = include_str!("./sample.txt");
         assert_eq!(solve_day_04_01(sample), "18");
+    }
+    #[test]
+    fn day_04_01_input() {
+        let sample = include_str!("./input.txt");
+        assert_eq!(solve_day_04_01(sample), "2554");
+    }
+    #[test]
+    fn day_04_02_input() {
+        let sample = include_str!("./input.txt");
+        assert_eq!(solve_day_04_02(sample), "1916");
     }
 
     #[test]
