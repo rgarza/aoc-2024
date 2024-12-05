@@ -140,16 +140,14 @@ pub fn solve_day_04_01(input: &str) -> String {
     let mut total: i32 = 0;
     for y in 0..data[0].len() {
         for x in 0..data[0].len() {
-            if data[y][x] == 'X' {
-                total += process_char(&data, x, y, &empty, Direction::Left);
-                total += process_char(&data, x, y, &empty, Direction::Right);
-                total += process_char(&data, x, y, &empty, Direction::Down);
-                total += process_char(&data, x, y, &empty, Direction::Up);
-                total += process_char(&data, x, y, &empty, Direction::DownRight);
-                total += process_char(&data, x, y, &empty, Direction::DownLeft);
-                total += process_char(&data, x, y, &empty, Direction::UpRight);
-                total += process_char(&data, x, y, &empty, Direction::UpLeft);
-            }
+            total += process_char(&data, x, y, &empty, Direction::Left);
+            total += process_char(&data, x, y, &empty, Direction::Right);
+            total += process_char(&data, x, y, &empty, Direction::Down);
+            total += process_char(&data, x, y, &empty, Direction::Up);
+            total += process_char(&data, x, y, &empty, Direction::DownRight);
+            total += process_char(&data, x, y, &empty, Direction::DownLeft);
+            total += process_char(&data, x, y, &empty, Direction::UpRight);
+            total += process_char(&data, x, y, &empty, Direction::UpLeft);
         }
     }
 
